@@ -1,0 +1,323 @@
+/* ========================================
+   Ultimate Member Selection - App UI
+   ======================================== */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: #0f2027;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Yu Gothic", "Noto Sans JP", sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(79,172,254,.22), transparent 32%),
+    radial-gradient(circle at 85% 85%, rgba(255,126,95,.18), transparent 35%),
+    linear-gradient(145deg, #08171d, #102b35 55%, #173e4b);
+  color: #f6f8fa;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,.035),
+    transparent 45%
+  );
+}
+
+.app-container {
+  width: 100%;
+  max-width: 760px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding:
+    calc(12px + env(safe-area-inset-top))
+    12px
+    calc(24px + env(safe-area-inset-bottom));
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 4px 18px;
+}
+
+.app-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #4facfe, #00c6ff);
+  box-shadow: 0 8px 24px rgba(0,198,255,.24);
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+}
+
+.app-kicker {
+  font-size: 10px;
+  letter-spacing: .16em;
+  opacity: .62;
+  font-weight: 700;
+}
+
+.app-subtitle {
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.title {
+  display: none;
+}
+
+/* Cards */
+.card {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px;
+  background: rgba(255,255,255,.075);
+  box-shadow:
+    0 16px 45px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.card h2 {
+  margin: 0 0 14px;
+  font-size: 17px;
+  letter-spacing: .01em;
+}
+
+/* Input */
+.form-row {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.form-row input[type="text"] {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 13px;
+  outline: none;
+  background: rgba(0,0,0,.20);
+  color: #fff;
+  font-size: 16px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.form-row input[type="text"]:focus {
+  border-color: rgba(79,172,254,.75);
+  box-shadow: 0 0 0 3px rgba(79,172,254,.14);
+}
+
+.form-row input::placeholder {
+  color: rgba(255,255,255,.48);
+}
+
+/* Position chips */
+.primary-positions,
+.extra-positions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.primary-positions label,
+.extra-positions label {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.07);
+  color: #fff;
+  font-size: 13px;
+}
+
+.extra-positions > label:first-child {
+  width: 100%;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: .7;
+  font-size: 12px;
+}
+
+/* Native checkbox, enlarged for touch */
+input[type="checkbox"] {
+  width: 21px;
+  height: 21px;
+  margin: 0;
+  accent-color: #4facfe;
+}
+
+/* Buttons */
+.add-btn,
+.select-btn,
+.delete-btn {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.add-btn {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 4px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff7e5f, #ff9a76);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(255,126,95,.20);
+}
+
+.add-btn:active,
+.select-btn:active,
+.delete-btn:active {
+  transform: scale(.98);
+}
+
+/* Member list */
+.member-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 14px;
+  border-radius: 14px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.member-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  font-size: 12px;
+  background: rgba(0,0,0,.12);
+}
+
+.member-table th,
+.member-table td {
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.member-table th {
+  background: rgba(255,255,255,.07);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: #d9534f;
+  color: #fff;
+  font-size: 12px;
+}
+
+/* Selection */
+.select-btn {
+  width: 100%;
+  min-height: 56px;
+  padding: 13px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4facfe, #00c6ff);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(79,172,254,.23);
+}
+
+.result {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 15px;
+  background: rgba(0,0,0,.16);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.solution {
+  margin-top: 13px;
+  padding: 12px;
+  border-radius: 13px;
+  background: rgba(255,255,255,.055);
+}
+
+.solution ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.solution li {
+  margin: 8px 0;
+}
+
+.priority-mark {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+.no-result {
+  color: #ffb4a2;
+  line-height: 1.65;
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .app-container {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .card {
+    padding: 13px;
+    border-radius: 17px;
+  }
+
+  .primary-positions,
+  .extra-positions {
+    gap: 6px;
+  }
+
+  .primary-positions label,
+  .extra-positions label {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
