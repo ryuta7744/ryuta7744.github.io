@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style_app.css" />
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <div class="app-container">
@@ -45,6 +46,16 @@
         <label><input type="checkbox" value="DD" class="extra-checkbox" /> DD</label>
       </div>
       <button id="addBtn" class="add-btn">追加</button>
+      <div class="preset-panel">
+        <div class="preset-title">メンバー保存</div>
+        <div class="preset-buttons">
+          <button type="button" class="preset-btn" data-preset="0">プリセット1</button>
+          <button type="button" class="preset-btn" data-preset="1">プリセット2</button>
+          <button type="button" class="preset-btn" data-preset="2">プリセット3</button>
+        </div>
+        <div class="preset-note">登録・優先・除外は自動保存されます。プリセットを切り替えると、そのセットの選手表に切り替わります。</div>
+      </div>
+
       <div class="member-table-wrapper">
         <table class="member-table">
         <thead>

@@ -321,3 +321,43 @@ input[type="checkbox"] {
     font-size: 12px;
   }
 }
+
+/* Presets */
+.preset-panel {
+  margin: 14px 0 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.preset-title {
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+.preset-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.preset-btn {
+  min-height: 44px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.preset-btn.active {
+  background: rgba(79,172,254,.20);
+  box-shadow: 0 0 0 2px rgba(79,172,254,.65) inset;
+}
+.preset-note {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: .62;
+}

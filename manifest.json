@@ -1,24 +1,20 @@
 {
-  "name": "アルティメット メンバー選出",
+  "name": "アルティメット メンバー選出アプリ",
   "short_name": "メンバー選出",
-  "description": "アルティメットのメンバーを条件に合わせて選出するアプリ",
-  "start_url": "./index_app.html",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#0f2027",
-  "theme_color": "#0f2027",
-  "orientation": "portrait-primary",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }

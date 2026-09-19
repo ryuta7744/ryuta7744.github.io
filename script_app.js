@@ -1,5 +1,77 @@
 // Member data storage
-const members = [];
+// 選手・優先・除外をiPhoneのブラウザに自動保存し、3つのプリセットを使えます。
+const STORAGE_KEY = 'ultimate-member-selection-members-v3';
+const PRESET_KEY = 'ultimate-member-selection-presets-v1';
+const ACTIVE_PRESET_KEY = 'ultimate-member-selection-active-preset-v1';
+const PRESET_COUNT = 3;
+
+function readJson(key, fallback) {
+  try {
+    const saved = localStorage.getItem(key);
+    if (!saved) return fallback;
+    const parsed = JSON.parse(saved);
+    return parsed ?? fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function loadPresets() {
+  const parsed = readJson(PRESET_KEY, []);
+  return Array.from({ length: PRESET_COUNT }, (_, i) =>
+    Array.isArray(parsed[i]) ? parsed[i] : []
+  );
+}
+
+function savePresets(presets) {
+  localStorage.setItem(PRESET_KEY, JSON.stringify(presets));
+}
+
+let activePreset = Math.max(
+  0,
+  Math.min(PRESET_COUNT - 1, Number(localStorage.getItem(ACTIVE_PRESET_KEY) || 0))
+);
+
+let members = (() => {
+  const presets = loadPresets();
+
+  // 既存の保存方式がある場合は、それをプリセット1へ引き継ぐ。
+  if (!presets.some(p => p.length)) {
+    const old = readJson(STORAGE_KEY, null);
+    if (Array.isArray(old) && old.length) {
+      presets[0] = old;
+      savePresets(presets);
+    }
+  }
+
+  return JSON.parse(JSON.stringify(presets[activePreset] || []));
+})();
+
+function saveMembers() {
+  const presets = loadPresets();
+  presets[activePreset] = JSON.parse(JSON.stringify(members));
+  savePresets(presets);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+  localStorage.setItem(ACTIVE_PRESET_KEY, String(activePreset));
+}
+
+function loadPreset(index) {
+  saveMembers();
+  const presets = loadPresets();
+  activePreset = index;
+  members = JSON.parse(JSON.stringify(presets[index] || []));
+  localStorage.setItem(ACTIVE_PRESET_KEY, String(activePreset));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+  renderMemberList();
+  resultDiv.innerHTML = '';
+  updatePresetButtons();
+}
+
+function updatePresetButtons() {
+  document.querySelectorAll('.preset-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === activePreset);
+  });
+}
 
 const nameInput = document.getElementById('nameInput');
 const primaryCheckboxes = document.querySelectorAll('.primary-checkbox');
@@ -76,12 +148,14 @@ function addMember() {
   primaryCheckboxes.forEach(cb => cb.checked = false);
   extraCheckboxes.forEach(cb => cb.checked = false);
 
+  saveMembers();
   renderMemberList();
   nameInput.focus();
 }
 
 function deleteMember(index) {
   members.splice(index, 1);
+  saveMembers();
   renderMemberList();
   resultDiv.innerHTML = '';
 }
@@ -89,12 +163,14 @@ function deleteMember(index) {
 function toggleExclude(index, checked) {
   members[index].exclude = checked;
   if (checked) members[index].priority = false;
+  saveMembers();
   renderMemberList();
 }
 
 function togglePriority(index, checked) {
   if (members[index].exclude && checked) return;
   members[index].priority = checked;
+  saveMembers();
   renderMemberList();
 }
 
@@ -318,4 +394,9 @@ selectBtn.addEventListener('click', () => {
   displaySolutions(findSolutions(3));
 });
 
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => loadPreset(Number(btn.dataset.preset)));
+});
+
 renderMemberList();
+updatePresetButtons();
